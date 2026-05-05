@@ -1,7 +1,7 @@
 {
   "name": "focussed-api",
   "version": "4.0.0",
-  "description": "Human Design & Astrology API for Focussed. — swisseph-v2 callback API",
+  "description": "Human Design & Astrology API for Focussed.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -12,6 +12,6 @@
     "swisseph-v2": "^1.0.0"
   },
   "engines": {
-    "node": ">=18.x"
+    "node": "20.x"
   }
 }
