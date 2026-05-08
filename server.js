@@ -285,5 +285,27 @@ app.get('/api/chart', (req, res) => {
   app.handle(Object.assign(req, { method: 'POST' }), res);
 });
 
+// ─── CLAUDE PROXY ─────────────────────────────────────────────────────────────
+// Proxies requests to Anthropic API to avoid CORS issues from static sites
+
+app.post('/api/claude', async (req, res) => {
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'x-api-key': process.env.ANTHROPIC_API_KEY
+      },
+      body: JSON.stringify(req.body)
+    });
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch (err) {
+    console.error('Claude proxy error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Focussed. API v4 running on port ${PORT}`));
